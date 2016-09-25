@@ -1,20 +1,13 @@
 package assignment3;
 
-import java.util.ArrayList;
+
 import java.util.LinkedList;
 import java.util.Set;
 
-class WordNode {
-	String word;
-	int rung;
-	
-	public WordNode(String w, int r) {
-		word = w;
-		rung = r;
-	}
-}
+
 
 public class BreadthFirstSearch {
+
 	public static void breadthFirstSearch(String start, String end, Set<String> dictionary) {
 		LinkedList<WordNode> storage = new LinkedList<WordNode>();
 		storage.add(new WordNode(start, 0));
@@ -34,7 +27,6 @@ public class BreadthFirstSearch {
 					String checkWord = new String(check);
 					if (dictionary.contains(checkWord)) {
 						storage.add(new WordNode(checkWord, newWord.rung + 1)); // add word to the queue
-						dictionary.remove(checkWord); //word has been visited
 					}
 					
 					check[i] = temp; //put the original letter back

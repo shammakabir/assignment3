@@ -1,8 +1,8 @@
 /* WORD LADDER Main.java
  * EE422C Project 3 submission by
  * Replace <...> with your actual data.
- * <Student1 Name>
- * <Student1 EID>
+ * Shamma Kabir
+ * sk38422
  * <Student1 5-digit Unique No.>
  * <Student2 Name>
  * <Student2 EID>
@@ -10,7 +10,6 @@
  * Slip days used: <0>
  * Git URL:
  * Fall 2016
- * karthikw as here
  */
 
 

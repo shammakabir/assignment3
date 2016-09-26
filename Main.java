@@ -77,12 +77,44 @@ public class Main {
 	}
 	
     public static ArrayList<String> getWordLadderBFS(String start, String end) {
+		Set<String> dictionary = makeDictionary();
+		LinkedList<ArrayList<String>> queue = new LinkedList<ArrayList<String>>(); //making a queue of ladders
+		ArrayList<String> storage = new ArrayList<String>();
+		storage.add(start); //storage is our first ladder
+		queue.add(storage); //add storage to queue
+		dictionary.remove(start); //not killing real dictionary b/c it's we're going through a generated one
+		//specifically for this function
+		while (queue.isEmpty() != true) {
+			ArrayList<String> top = queue.remove(); 
+			int j = top.size() - 1;
+			String firstWord = top.get(j);
+			if (firstWord.equals(end)) {
+				return top;
+			}
+			char[] check = firstWord.toCharArray();
+			for (int i = 0; i < check.length; i++) { //changing every letter of start word 
+				for (char k = 'a'; k <= 'z'; j++){ //changing each letter from a - z
+					char temp = check[i];
+					if (check[i] != k) {
+						check[i] = k;
+					}
+					String checkWord = new String(check);
+					ArrayList<String> ladder = new ArrayList<String>();
+					if (dictionary.contains(checkWord)) {
+						ladder.addAll(top);
+						ladder.add(checkWord);
+						queue.add(ladder); 
+						dictionary.remove(checkWord); //bc you don't wanna run into it again 
+					}
+					
+					check[i] = temp; //put the original letter back
+				}
+			}
+			
+		}
 		
-		// TODO some code
-		Set<String> dict = makeDictionary();
-		// TODO more code
-		
-		return null; // replace this line later with real return
+		ArrayList<String> none = new ArrayList<String>();
+		return none;
 	}
     
 	public static Set<String>  makeDictionary () {

@@ -79,21 +79,25 @@ public class Main {
     public static ArrayList<String> getWordLadderBFS(String start, String end) {
 		Set<String> dictionary = makeDictionary();
 		LinkedList<ArrayList<String>> queue = new LinkedList<ArrayList<String>>(); //making a queue of ladders
-		ArrayList<String> storage = new ArrayList<String>();
-		storage.add(start); //storage is our first ladder
+		
+	    	ArrayList<String> storage = new ArrayList<String>();
+	    	ArrayList<String> none = new ArrayList<String>();
+		
+	    	storage.add(start); //storage is our first ladder
 		queue.add(storage); //add storage to queue
 		dictionary.remove(start); //not killing real dictionary b/c it's we're going through a generated one
 		//specifically for this function
+	    	int j = 0;
 		while (queue.isEmpty() != true) {
 			ArrayList<String> top = queue.remove(); 
-			int j = top.size() - 1;
+			j = top.size() - 1;
 			String firstWord = top.get(j);
 			if (firstWord.equals(end)) {
 				return top;
 			}
 			char[] check = firstWord.toCharArray();
 			for (int i = 0; i < check.length; i++) { //changing every letter of start word 
-				for (char k = 'a'; k <= 'z'; j++){ //changing each letter from a - z
+				for (char k = 'a'; k <= 'z'; k++){ //changing each letter from a - z
 					char temp = check[i];
 					if (check[i] != k) {
 						check[i] = k;
@@ -113,7 +117,7 @@ public class Main {
 			
 		}
 		
-		ArrayList<String> none = new ArrayList<String>();
+		
 		return none;
 	}
     

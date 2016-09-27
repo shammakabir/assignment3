@@ -140,6 +140,25 @@ public class Main {
 	public static void printLadder(ArrayList<String> ladder) {
 		
 	}
+	
+	/**
+	 * Test to see if a word node linked to a string already exist
+	 * if not creates the node
+	 * @param s is string used to create a node, also test if node already exist
+	 * @return the index of the node
+	 */
+	
+	public static int getNode(String s){
+		if(WordNode.List != null){
+			for (WordNode Node: WordNode.List){
+				if(Node.word.equals(s)){
+					return WordNode.List.indexOf(Node);
+				}		
+			}
+		}
+		new WordNode(s);
+		return (WordNode.List.size()-1);
+	}
 	// TODO
 	// Other private static methods here
 }

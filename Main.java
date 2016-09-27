@@ -158,6 +158,56 @@ public class Main {
 		}
 		new WordNode(s);
 		return (WordNode.List.size()-1);
+	}	private static boolean checkDic(char[] x, Set<String> dictionary){
+		for(String s : dictionary){
+			if (s.toCharArray().equals(x)){
+				return true;
+				
+			}
+		}
+		return false;
+	}
+	private static ArrayList<String> wordCombos(String s){
+		ArrayList<String> x = new ArrayList<String>() ;
+		char[] check = s.toCharArray();
+		for(int i=0; i < check.length; i++){
+			char temp = check[i];
+			for(char k='A';k <='Z'; k++){
+				check[i]=k;
+				if (checkDic(check,dict)){
+					String s2 = new String(check);
+					x.add(s2);
+				}
+			}
+			check[i]=temp;
+		}
+		return x;
+	}
+	
+		private static boolean checkDic(char[] x, Set<String> dictionary){
+		for(String s : dictionary){
+			if (s.toCharArray().equals(x)){
+				return true;
+				
+			}
+		}
+		return false;
+	}
+	private static ArrayList<String> wordCombos(String s){
+		ArrayList<String> x = new ArrayList<String>() ;
+		char[] check = s.toCharArray();
+		for(int i=0; i < check.length; i++){
+			char temp = check[i];
+			for(char k='A';k <='Z'; k++){
+				check[i]=k;
+				if (checkDic(check,dict)){
+					String s2 = new String(check);
+					x.add(s2);
+				}
+			}
+			check[i]=temp;
+		}
+		return x;
 	}
 	// TODO
 	// Other private static methods here

@@ -37,7 +37,16 @@ public class Main {
 		}
 		initialize();
 		
-		// TODO methods to read in words, output ladder
+		//code for testing
+		ArrayList<String> words = parse(kb);
+		String start = words.get(0);
+		String end = words.get(1); //making sure parse works right
+		ArrayList<String> ladder = getWordLadderBFS(start,end);
+		for (int i = 0; i < ladder.size(); i++) {
+			System.out.println(ladder.get(i));
+		}
+		// the print for loop might be able to just go in the print function -- check that out!
+		// TODO methods to read in words, output ladder 
 	}
 	
 	public static void initialize() {
@@ -85,7 +94,7 @@ public class Main {
 		
 	    	storage.add(start); //storage is our first ladder
 		queue.add(storage); //add storage to queue
-		dictionary.remove(start); //not killing real dictionary b/c it's we're going through a generated one
+		dictionary.remove(start.toUpperCase()); //not killing real dictionary b/c it's we're going through a generated one
 		//specifically for this function
 	    	int j = 0;
 		while (queue.isEmpty() != true) {
@@ -104,11 +113,11 @@ public class Main {
 					}
 					String checkWord = new String(check);
 					ArrayList<String> ladder = new ArrayList<String>();
-					if (dictionary.contains(checkWord)) {
+					if (dictionary.contains(checkWord.toUpperCase())) {
 						ladder.addAll(top);
 						ladder.add(checkWord);
 						queue.add(ladder); 
-						dictionary.remove(checkWord); //bc you don't wanna run into it again 
+						dictionary.remove(checkWord.toUpperCase()); //bc you don't wanna run into it again 
 					}
 					
 					check[i] = temp; //put the original letter back

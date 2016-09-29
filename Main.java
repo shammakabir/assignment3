@@ -24,7 +24,8 @@ public class Main {
 	private static String head;
 	private static String tail;
 	
-	
+	private static boolean noladder
+		
 	public static void main(String[] args) throws Exception {
 		
 		Scanner kb;	// input Scanner for commands
@@ -46,15 +47,7 @@ public class Main {
 		String start = words.get(0);
 		String end = words.get(1);
 		ArrayList<String> ladder = getWordLadderBFS(start,end);
-		int rung = 0;
-		if (ladder.size() > 0) {
-			rung = ladder.size();
-			System.out.println("a "+rung+"-rung word ladder exists between "+start+" and "+end+".");
-			printLadder(ladder);
-		}
-		else if (ladder.size() == 0) {
-			System.out.println("no word ladder can be found between "+start+" and "+end+".");
-		}
+		printLadder(ladder);
 			
 	}
 	
@@ -87,6 +80,7 @@ public class Main {
 	}
 	
 	public static ArrayList<String> getWordLadderDFS(String start, String end) {
+		noladder=fasle;
 		WordNode rung = new WordNode("DNE");
 		head = start;
 		tail = end;
@@ -102,16 +96,23 @@ public class Main {
 		// Return empty list if no ladder.
 		// TODO some code
 		// TODO more code
+		else {
+ 			noladder=false; 
+ 		}
 		clearGraph();
 		return ladder; // replace this line later with real return
 	}
 	
     public static ArrayList<String> getWordLadderBFS(String start, String end) {
 		Set<String> dictionary = makeDictionary();
+	    	noladder=fasle;
+ 	    	head=start;
+ 	    	tail=end;
+	    
 		LinkedList<ArrayList<String>> queue = new LinkedList<ArrayList<String>>(); //making a queue of ladders
-		
+		ArrayList<String> none = new ArrayList<String>();
 	    	ArrayList<String> storage = new ArrayList<String>();
-	    	ArrayList<String> none = new ArrayList<String>();
+	  
 		
 	    	storage.add(start); //storage is our first ladder
 		queue.add(storage); //add storage to queue
@@ -123,7 +124,14 @@ public class Main {
 			j = top.size() - 1;
 			String firstWord = top.get(j);
 			if (firstWord.equals(end)) {
+				if (top.get(0).equals(start)) {
+					top.remove(0);
+				}
+				if (top.get(top.size() - 1).equals(end)) {
+					top.remove(top.size() - 1);
+				}
 				return top;
+				
 			}
 			char[] check = firstWord.toCharArray();
 			for (int i = 0; i < check.length; i++) { //changing every letter of start word 
@@ -147,8 +155,8 @@ public class Main {
 			
 		}
 		
-		
-		return none;
+		noladder = true;
+	    	return none;
 	}
     
 	public static Set<String>  makeDictionary () {
@@ -168,9 +176,23 @@ public class Main {
 	}
 	
 	public static void printLadder(ArrayList<String> ladder) {
-		for (int i = 0; i < ladder.size(); i++) {
-			System.out.println(ladder.get(i));
-		}	
+		if (ladder.size() == 0 && noladder == true ){
+ 			System.out.println("No word ladder exists between "+head+" and "+tail+".");
+ 		}
+ 		else if (ladder.size() > 0) {
+  			rung = ladder.size();	
+			System.out.println("a "+rung+"-rung word ladder exists between "+head+" and "+tail+".");
+ 			Sytem.out.println(head);
+  			for (int i = 0; i < ladder.size(); i++) {
+  			System.out.println(ladder.get(i));
+  			}
+ 			Sytem.out.println(tail);
+  		}
+		else if (ladder.size() == 0) {
+			System.out.println("a 0-rung word ladder exists between "+head+" and "+tail+".");
+ 			Sytem.out.println(head);
+ 			Sytem.out.println(tail);
+  		}
 	}
 	
 	/**

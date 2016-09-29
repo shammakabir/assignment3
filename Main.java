@@ -41,15 +41,21 @@ public class Main {
 		initialize();
 		
 		//code for testing
+		
 		ArrayList<String> words = parse(kb);
 		String start = words.get(0);
-		String end = words.get(1); //making sure parse works right
+		String end = words.get(1);
 		ArrayList<String> ladder = getWordLadderBFS(start,end);
-		for (int i = 0; i < ladder.size(); i++) {
-			System.out.println(ladder.get(i));
+		int rung = 0;
+		if (ladder.size() > 0) {
+			rung = ladder.size();
+			System.out.println("a "+rung+"-rung word ladder exists between "+start+" and "+end+".");
+			printLadder(ladder);
 		}
-		// the print for loop might be able to just go in the print function -- check that out!
-		// TODO methods to read in words, output ladder 
+		else if (ladder.size() == 0) {
+			System.out.println("no word ladder can be found between "+start+" and "+end+".");
+		}
+			
 	}
 	
 	public static void initialize() {
@@ -162,18 +168,8 @@ public class Main {
 	}
 	
 	public static void printLadder(ArrayList<String> ladder) {
-		int rung = 0;
-		if (ladder.size() > 0) {
-			rung = ladder.size();
-			String start = ladder.get(0);
-			String finish = ladder.get(rung - 1);
-			System.out.println("a "+rung+"-rung word ladder exists between "+start+" and "+finish+".");
-			for (int i = 0; i < ladder.size(); i++) {
+		for (int i = 0; i < ladder.size(); i++) {
 			System.out.println(ladder.get(i));
-			}
-		}
-		else if (ladder.size() == 0) {
-			//do this
 		}	
 	}
 	

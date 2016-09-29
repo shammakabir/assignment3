@@ -162,7 +162,19 @@ public class Main {
 	}
 	
 	public static void printLadder(ArrayList<String> ladder) {
-		
+		int rung = 0;
+		if (ladder.size() > 0) {
+			rung = ladder.size();
+			String start = ladder.get(0);
+			String finish = ladder.get(rung - 1);
+			System.out.println("a "+rung+"-rung word ladder exists between "+start+" and "+finish+".");
+			for (int i = 0; i < ladder.size(); i++) {
+			System.out.println(ladder.get(i));
+			}
+		}
+		else if (ladder.size() == 0) {
+			//do this
+		}	
 	}
 	
 	/**

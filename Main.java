@@ -20,7 +20,10 @@ import java.io.*;
 
 public class Main {
 	
-	private static Set<String> dict;// static variables and constants only here.
+	private static ArrayList<WordNode> vertexList;
+	private static String head;
+	private static String tail;
+	
 	
 	public static void main(String[] args) throws Exception {
 		
@@ -50,9 +53,8 @@ public class Main {
 	}
 	
 	public static void initialize() {
-		// initialize your static variables or constants here.
-		// We will call this method before running our JUNIT tests.  So call it 
-		// only once at the start of main.
+		vertexList= new ArrayList<WordNode>();
+		createnodelist(makeDictionary());
 	}
 	
 	/**
@@ -61,28 +63,41 @@ public class Main {
 	 * If command is /quit, return empty ArrayList. 
 	 */
 	public static ArrayList<String> parse(Scanner keyboard) {
+		
+		ArrayList<String> input = new ArrayList<String>();
+		while (input.size() != 2){
 		String command = keyboard.nextLine();
 		command = command.trim();
-		if (command.equals("/quit")){
-			return null;
+			if (command.equals("/quit")){
+				return null;
+			}
+			String[] parser = command.split(" ");
+			for (String s: parser){
+				input.add(s);
+			}
 		}
-		ArrayList<String> input = new ArrayList<String>();
-		String[] compare = command.split("");
-		input.add(compare[0]);
-		input.add(compare[1]);
 		return input;
 		
 	}
 	
 	public static ArrayList<String> getWordLadderDFS(String start, String end) {
-		
+		WordNode rung = new WordNode("DNE");
+		head = start;
+		tail = end;
+		ArrayList<String> ladder = new ArrayList<String>();
+		if(DFS(getNode(head))){
+			rung = (getNode(tail)).parent;
+			while(rung.parent != null){
+			ladder.add(0,rung.word);
+			rung=rung.parent;
+			}
+		}
 		// Returned list should be ordered start to end.  Include start and end.
 		// Return empty list if no ladder.
 		// TODO some code
-		Set<String> dict = makeDictionary();
 		// TODO more code
-		
-		return null; // replace this line later with real return
+		clearGraph();
+		return ladder; // replace this line later with real return
 	}
 	
     public static ArrayList<String> getWordLadderBFS(String start, String end) {
@@ -157,67 +172,51 @@ public class Main {
 	 * @return the index of the node
 	 */
 	
-	public static int getNode(String s){
-		if(WordNode.List != null){
-			for (WordNode Node: WordNode.List){
+	public static WordNode getNode(String s){
+		WordNode returnnode = new WordNode("DNE");
+		if(vertexList != null){
+			for (WordNode Node: vertexList){
 				if(Node.word.equals(s)){
-					return WordNode.List.indexOf(Node);
+					returnnode = Node;
+					break;
 				}		
 			}
 		}
-		new WordNode(s);
-		return (WordNode.List.size()-1);
-	}	private static boolean checkDic(char[] x, Set<String> dictionary){
-		for(String s : dictionary){
-			if (s.toCharArray().equals(x)){
-				return true;
-				
-			}
-		}
-		return false;
-	}
-	private static ArrayList<String> wordCombos(String s){
-		ArrayList<String> x = new ArrayList<String>() ;
-		char[] check = s.toCharArray();
-		for(int i=0; i < check.length; i++){
-			char temp = check[i];
-			for(char k='A';k <='Z'; k++){
-				check[i]=k;
-				if (checkDic(check,dict)){
-					String s2 = new String(check);
-					x.add(s2);
-				}
-			}
-			check[i]=temp;
-		}
-		return x;
+		return returnnode;
 	}
 	
-		private static boolean checkDic(char[] x, Set<String> dictionary){
+	private static void createnodelist(Set<String> dictionary){
 		for(String s : dictionary){
-			if (s.toCharArray().equals(x)){
-				return true;
-				
+			vertexList.add(new WordNode(s.toLowerCase()));
+			}
+		}
+	
+	
+	private static void clearGraph(){
+		for (WordNode n : vertexList){
+			n.visited = false;
+			n.parent = null;
+			n.closeness=0;
+			n.connectwords.clear();
+		}
+	}
+
+
+	private static boolean DFS(WordNode node){
+		node.visited=true;
+		node.CCwords(vertexList);
+		if (node.word.equals(tail)){ return true;}
+		else if( node.connectwords.size() == 0){return false;}
+		node.sort(tail);
+		for( WordNode s : node.connectwords){
+			if(!(s.visited)){ 
+				if(DFS(s)){return true;
+				}
 			}
 		}
 		return false;
 	}
-	private static ArrayList<String> wordCombos(String s){
-		ArrayList<String> x = new ArrayList<String>() ;
-		char[] check = s.toCharArray();
-		for(int i=0; i < check.length; i++){
-			char temp = check[i];
-			for(char k='A';k <='Z'; k++){
-				check[i]=k;
-				if (checkDic(check,dict)){
-					String s2 = new String(check);
-					x.add(s2);
-				}
-			}
-			check[i]=temp;
-		}
-		return x;
-	}
+
 	// TODO
 	// Other private static methods here
 }

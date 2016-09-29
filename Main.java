@@ -23,7 +23,7 @@ public class Main {
 	private static ArrayList<WordNode> vertexList;
 	private static String head;
 	private static String tail;
-	
+	private static boolean noladder
 	
 	public static void main(String[] args) throws Exception {
 		
@@ -81,6 +81,7 @@ public class Main {
 	}
 	
 	public static ArrayList<String> getWordLadderDFS(String start, String end) {
+		noladder=fasle;
 		WordNode rung = new WordNode("DNE");
 		head = start;
 		tail = end;
@@ -92,16 +93,18 @@ public class Main {
 			rung=rung.parent;
 			}
 		}
-		// Returned list should be ordered start to end.  Include start and end.
-		// Return empty list if no ladder.
-		// TODO some code
-		// TODO more code
+		else {
+			noladder=false; 
+		}
 		clearGraph();
 		return ladder; // replace this line later with real return
 	}
 	
     public static ArrayList<String> getWordLadderBFS(String start, String end) {
 		Set<String> dictionary = makeDictionary();
+	    noladder=fasle;
+	    head=start;
+	    tail=end;
 		LinkedList<ArrayList<String>> queue = new LinkedList<ArrayList<String>>(); //making a queue of ladders
 		
 	    	ArrayList<String> storage = new ArrayList<String>();
@@ -117,6 +120,7 @@ public class Main {
 			j = top.size() - 1;
 			String firstWord = top.get(j);
 			if (firstWord.equals(end)) {
+				//before returning make sure the start and end words arent in ladder
 				return top;
 			}
 			char[] check = firstWord.toCharArray();
@@ -141,7 +145,7 @@ public class Main {
 			
 		}
 		
-		
+		noladder=true
 		return none;
 	}
     
@@ -163,17 +167,22 @@ public class Main {
 	
 	public static void printLadder(ArrayList<String> ladder) {
 		int rung = 0;
-		if (ladder.size() > 0) {
+		if (ladder.size() == 0 && ){
+			System.out.println("No word ladder exists between "+head+" and "+tail+".");
+		}
+		else if (ladder.size() > 0) {
 			rung = ladder.size();
-			String start = ladder.get(0);
-			String finish = ladder.get(rung - 1);
-			System.out.println("a "+rung+"-rung word ladder exists between "+start+" and "+finish+".");
+			System.out.println("a "+rung+"-rung word ladder exists between "+head+" and "+tail+".");
+			Sytem.out.println(head);
 			for (int i = 0; i < ladder.size(); i++) {
 			System.out.println(ladder.get(i));
 			}
+			Sytem.out.println(tail);
 		}
 		else if (ladder.size() == 0) {
-			//do this
+			System.out.println("a 0-rung word ladder exists between "+head+" and "+tail+".");
+			Sytem.out.println(head);
+			Sytem.out.println(tail);
 		}	
 	}
 	

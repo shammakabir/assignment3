@@ -4,11 +4,11 @@
  * Shamma Kabir
  * sk38422
  * <Student1 5-digit Unique No.>
- * <Student2 Name>
- * <Student2 EID>
- * <Student2 5-digit Unique No.>
+ * <Josh Knight>
+ * <JTK764>
+ * <16470>
  * Slip days used: <0>
- * Git URL:
+ * Git URL: https://github.com/shammakabir/assignment3
  * Fall 2016
  */
 
@@ -24,7 +24,7 @@ public class Main {
 	private static String head;
 	private static String tail;
 	
-	private static boolean noladder
+	private static boolean noladder;
 		
 	public static void main(String[] args) throws Exception {
 		
@@ -46,11 +46,17 @@ public class Main {
 		ArrayList<String> words = parse(kb);
 		String start = words.get(0);
 		String end = words.get(1);
-		ArrayList<String> ladder = getWordLadderBFS(start,end);
+		ArrayList<String> ladder = getWordLadderDFS(start,end);
 		printLadder(ladder);
+		ladder = getWordLadderBFS(start,end);
+		printLadder(ladder);
+		
 			
 	}
 	
+	/**
+	 * initializes statics in main
+	 */
 	public static void initialize() {
 		vertexList= new ArrayList<WordNode>();
 		createnodelist(makeDictionary());
@@ -67,20 +73,27 @@ public class Main {
 		while (input.size() != 2){
 		String command = keyboard.nextLine();
 		command = command.trim();
-			if (command.equals("/quit")){
-				return null;
-			}
 			String[] parser = command.split(" ");
 			for (String s: parser){
-				input.add(s);
+				if (s.equals("/quit")){
+					System.exit(0);}
+				if(s != "" || s != "	"){
+					input.add(s.toLowerCase());
+				}
 			}
 		}
 		return input;
 		
 	}
 	
+	/**
+	 * recursive function the implements depth first search with a wordnode class
+	 * @param start the step of the ladder
+	 * @param end the word you are trying to match start to
+	 * @return list of words between start and end
+	 */
 	public static ArrayList<String> getWordLadderDFS(String start, String end) {
-		noladder=fasle;
+		noladder=false;
 		WordNode rung = new WordNode("DNE");
 		head = start;
 		tail = end;
@@ -92,20 +105,22 @@ public class Main {
 			rung=rung.parent;
 			}
 		}
-		// Returned list should be ordered start to end.  Include start and end.
-		// Return empty list if no ladder.
-		// TODO some code
-		// TODO more code
 		else {
- 			noladder=false; 
+ 			noladder=true; 
  		}
 		clearGraph();
-		return ladder; // replace this line later with real return
+		return ladder; 
 	}
 	
+    /**
+     * BFS method for word ladder between two words. uses a queue of ladders.
+	 * @param start the step of the ladder
+	 * @param end the word you are trying to match start to
+	 * @return list of words between start and end
+     */
     public static ArrayList<String> getWordLadderBFS(String start, String end) {
 		Set<String> dictionary = makeDictionary();
-	    	noladder=fasle;
+	    	noladder=false;
  	    	head=start;
  	    	tail=end;
 	    
@@ -159,6 +174,10 @@ public class Main {
 	    	return none;
 	}
     
+	/**
+	 * creates a dictionary set from a file pre-coded in
+	 * @return Set set of all dictionary words
+	 */
 	public static Set<String>  makeDictionary () {
 		Set<String> words = new HashSet<String>();
 		Scanner infile = null;
@@ -175,33 +194,38 @@ public class Main {
 		return words;
 	}
 	
+	/**
+	 * Function to determine if ladder existed, and display the entire ladder
+	 * @param ladder list of ladder rungs
+	 */
 	public static void printLadder(ArrayList<String> ladder) {
-		if (ladder.size() == 0 && noladder == true ){
+		int rung=0;
+		if ( noladder == true ){
  			System.out.println("No word ladder exists between "+head+" and "+tail+".");
  		}
  		else if (ladder.size() > 0) {
   			rung = ladder.size();	
 			System.out.println("a "+rung+"-rung word ladder exists between "+head+" and "+tail+".");
- 			Sytem.out.println(head);
+ 			System.out.println(head);
   			for (int i = 0; i < ladder.size(); i++) {
   			System.out.println(ladder.get(i));
   			}
- 			Sytem.out.println(tail);
+ 			System.out.println(tail);
   		}
 		else if (ladder.size() == 0) {
 			System.out.println("a 0-rung word ladder exists between "+head+" and "+tail+".");
- 			Sytem.out.println(head);
- 			Sytem.out.println(tail);
+ 			System.out.println(head);
+ 			System.out.println(tail);
   		}
 	}
 	
-	/**
-	 * Test to see if a word node linked to a string already exist
-	 * if not creates the node
-	 * @param s is string used to create a node, also test if node already exist
-	 * @return the index of the node
-	 */
+
 	
+	/**
+	 *Finds the node from the static list in main class
+	 * @param s the string you want to be contained in your node 
+	 * @return the node you were looking for or a fake node if it doesn't exist
+	 */
 	public static WordNode getNode(String s){
 		WordNode returnnode = new WordNode("DNE");
 		if(vertexList != null){
@@ -247,6 +271,4 @@ public class Main {
 		return false;
 	}
 
-	// TODO
-	// Other private static methods here
 }

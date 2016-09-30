@@ -17,6 +17,14 @@ public class WordNode {
 		parent=null;
 		connectwords = new ArrayList<WordNode>(); 
 	}
+
+	/**
+	 * create the list of connected words for a given node
+	 * @param s list of wordnodes to based connection off of
+	 */
+	/**
+	 * @param s
+	 */
 	public void CCwords( ArrayList<WordNode> s){
 		char checker2[] = this.word.toCharArray();
 		int check;
@@ -30,10 +38,13 @@ public class WordNode {
 			if(check == 4 && c.visited != true
 					){ connectwords.add(c);
 					c.parent=this;}
-				int z = 0;
 		}
 	}
 	
+	/**
+	 * sorts an the connectwords list in order of closeness to a given word
+	 * @param e end word 
+	 */
 	public void sort(String e){
 		char[] arr1 = e.toCharArray();
 		char[] arr2;
